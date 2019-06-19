@@ -4,6 +4,7 @@
 """
 
 import os
+import io
 import yaml
 from simplejson import JSONDecodeError
 import hashlib
@@ -14,9 +15,9 @@ def get_yaml():
     :return: s  字典
     """
     path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '_config.yaml')
-
+    #print(path);
     try:
-        with open(path, 'r', encoding='utf-8') as file:
+        with io.open(path, 'r', encoding='utf-8') as file:
             config = yaml.load(file, Loader=yaml.Loader)
 
         return config

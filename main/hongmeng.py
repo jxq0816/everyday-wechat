@@ -1,5 +1,7 @@
-# coding=utf-8
-
+# -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 """
 每天定时给多个女友发给微信暖心话
 核心代码。
@@ -35,7 +37,7 @@ def run():
     if not is_online(auto_login=True):
         return
     if conf.get('is_auto_relay'):
-        print('已开启图灵自动回复...')
+        print('已开启自动回复...')
     init_alarm()  # 初始化定时任务
 
 
@@ -151,7 +153,7 @@ def text_reply(msg):
             reply_text = get_bot_info(receive_text, uuid)  # 获取自动回复
             time.sleep(1)  # 休眠一秒，保安全。想更快的，可以直接注释。
             if reply_text:  # 如内容不为空，回复消息
-                reply_text = reply_text if not uuid == FILEHELPER else '机器人回复：' + reply_text
+                reply_text = reply_text if not uuid == FILEHELPER else reply_text
                 itchat.send(reply_text, toUserName=uuid)
                 print('回复{}：{}\n'.format(nickName, reply_text))
             else:

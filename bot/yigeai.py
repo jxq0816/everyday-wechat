@@ -1,7 +1,10 @@
-#
+# -*- coding: utf-8 -*-
 """
 『一个AI』自动回复 (http://www.yige.ai/)
 """
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 import requests
 
 from main.common import (
