@@ -1,4 +1,7 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 
 import importlib
 from datetime import datetime
@@ -40,8 +43,8 @@ def get_weather_info(cityname):
     """
     if not cityname:
         return
-    return get_today_weather(cityname)
-    # return get_rttodayweather(cityname)
+    rs = get_today_weather(cityname)
+    return rs
 
 
 def get_bot_info(message, userId=''):
@@ -76,7 +79,7 @@ def get_diff_time(start_date):
     try:
         start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
         day_delta = (datetime.now() - start_datetime).days + 1
-        delta_msg = '宝贝这是我们在一起的第 {} 天。'.format(day_delta)
+        delta_msg = '这是我们在一起的第 {} 天。'.format(day_delta)
     except Exception as exception:
         print(exception)
         delta_msg = None
@@ -86,7 +89,6 @@ def get_diff_time(start_date):
 # from onewords
 
 if __name__ == '__main__':
-    text = 'are you ok'
-    reply_msg = get_bot_info(text)
-    print(reply_msg)
+    weather = get_weather_info('北京')
+    print(weather)
     pass

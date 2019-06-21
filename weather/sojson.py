@@ -1,5 +1,7 @@
-# coding=utf-8
-
+# -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 import requests
 
 city_dict = {
@@ -507,7 +509,7 @@ city_dict = {
 }
 
 
-def get_sojson_weather(city_name):
+def get_today_weather(city_name):
     """
      获取天气信息。网址：https://www.sojson.com/blog/305.html .
     :param city_name: str,城市名
@@ -557,9 +559,8 @@ def get_sojson_weather(city_name):
         print(exception)
         return None
 
-get_today_weather = get_sojson_weather
 
 if __name__ == '__main__':
-    we = get_today_weather('青岛')
+    we = get_today_weather('北京')
     print(we)
     pass

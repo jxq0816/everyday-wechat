@@ -26,6 +26,7 @@ reply_userNames = []
 FILEHELPER_MARK = ['文件传输助手', 'filehelper']  # 文件传输助手标识
 FILEHELPER = 'filehelper'
 
+
 def run():
     """ 主运行入口 """
     conf = get_yaml()
@@ -86,7 +87,7 @@ def init_wechat():
     """ 初始化微信所需数据 """
     conf = get_yaml()
     itchat.get_friends(update=True)  # 更新好友数据。
-    itchat.get_chatrooms(update=True)  # 更新群聊数据。
+    #itchat.get_chatrooms(update=True)  # 更新群聊数据。
     for name in conf.get('auto_reply_names'):
         if name.lower() in FILEHELPER_MARK:  # 判断是否文件传输助手
             if FILEHELPER not in reply_userNames:
@@ -98,6 +99,7 @@ def init_wechat():
         else:
             print('自动回复中的好友昵称『{}』有误。'.format(name))
     print(reply_userNames)
+
 
 def init_alarm():
     """ 初始化定时提醒 """
@@ -118,10 +120,10 @@ def init_alarm():
             print('定时任务中的好友名称『{}』有误。'.format(wechat_name))
 
         # 更新信息
-        group_name = info.get('group_name')
-        if group_name and not get_group(group_name):
-            print('定时任务中的群聊名称『{}』有误。'
-                  '(注意：必须要把需要的群聊保存到通讯录)'.format(group_name))
+        # group_name = info.get('group_name')
+        # if group_name and not get_group(group_name):
+        #     print('定时任务中的群聊名称『{}』有误。'
+        #           '(注意：必须要把需要的群聊保存到通讯录)'.format(group_name))
 
     # 定时任务
     scheduler = BlockingScheduler()
@@ -130,7 +132,7 @@ def init_alarm():
                       minute=minute, misfire_grace_time=15 * 60)
 
     # 每隔 30 秒发送一条数据用于测试。
-    # scheduler.add_job(send_alarm_msg, 'interval', seconds=30)
+    scheduler.add_job(send_alarm_msg, 'interval', seconds=30)
 
     print('已开启定时发送提醒功能...')
     scheduler.start()
@@ -168,7 +170,7 @@ def send_alarm_msg():
     conf = get_yaml()
     for gf in conf.get('girlfriend_infos'):
         dictum = get_dictum_info(gf.get('dictum_channel'))
-        weather = get_weather_info(gf.get('city_name'))
+        weather = get_weather_info(gf.get('city_name').encode('utf-8'))
         diff_time = get_diff_time(gf.get('start_date'))
         sweet_words = gf.get('sweet_words')
         send_msg = '\n'.join(x for x in [weather, dictum, diff_time, sweet_words] if x)
@@ -188,12 +190,12 @@ def send_alarm_msg():
                 print('定时给『{}』发送的内容是:\n{}\n发送成功...\n\n'.format(wechat_name, send_msg))
 
         # 给群聊里发信息
-        group_name = gf.get('group_name')
-        if group_name:
-            group = get_group(group_name)
-            if group:
-                group.send(send_msg)
-                print('定时给群聊『{}』发送的内容是:\n{}\n发送成功...\n\n'.format(group_name, send_msg))
+        # group_name = gf.get('group_name')
+        # if group_name:
+        #     group = get_group(group_name)
+        #     if group:
+        #         group.send(send_msg)
+        #         print('定时给群聊『{}』发送的内容是:\n{}\n发送成功...\n\n'.format(group_name, send_msg))
 
     print('自动提醒消息发送完成...\n')
 
@@ -228,5 +230,5 @@ def get_friend(wechat_name, update=False):
 
 if __name__ == '__main__':
     run()
-    # send_alarm_msg()
+    #send_alarm_msg()
     pass

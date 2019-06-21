@@ -1,4 +1,7 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 """
 工具类
 """
@@ -8,6 +11,7 @@ import io
 import yaml
 from simplejson import JSONDecodeError
 import hashlib
+
 
 def get_yaml():
     """
@@ -39,11 +43,13 @@ def is_json(resp):
     except JSONDecodeError:
         return False
 
+
 def md5_encode(text):
     md5 = hashlib.md5()
     md5.update(text.encode('utf-8'))
     encodedStr = md5.hexdigest().upper()
     return encodedStr
+
 
 if __name__ == '__main__':
     get_yaml()
